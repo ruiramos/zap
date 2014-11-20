@@ -12,6 +12,6 @@ It uses [https://github.com/rwaldron/johnny-five](Johnny Five), a Firmata based 
 # Installing, running...
 0. Upload the StandardFirmata firmware to your Arduino
 1. npm install
-2. traceur --out game.js --script es6-index.js
-3. node game.js
+2. traceur --out zap.js --script es6-zap.js
+3. node zap.js
 4. Enjoy
