@@ -7,7 +7,7 @@ Two players compete in a board of 2 x 3 leds using a button each. The objective 
 
 One day I'll actually include the actual schematics for this to work in your Arduino, should you be interested. Anyway it's not hard to get from the source code!
 
-It uses (https://github.com/rwaldron/johnny-five)[Johnny Five], a Firmata based framework, to communicate with the Arduino. Also loadash and traceur because.
+It uses [Johnny Five](https://github.com/rwaldron/johnny-five) , a Firmata based framework, to communicate with the Arduino. Also loadash and traceur because.
 
 # Installing, running...
 0. Upload the StandardFirmata firmware to your Arduino
