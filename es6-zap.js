@@ -13,8 +13,8 @@ var redButton = 9;
 var piezoPos = 3;
 
 var game = {};
-var maxLevel = 2;
-var blinkInterval = 600;
+var maxLevel = 2; // 2 * 0.05 = 40 stages
+var blinkInterval = 600; // ms between led flashing
 
 var greenScore = 0;
 var redScore = 0;
@@ -83,11 +83,15 @@ function startGame(){
       return showWinner();
     }
 
+    // sample the array. as the game progresses, it's more likely that 2 leds will light
     var toLightGreen = sample(game.green, 1 + Math.round(Math.random() * level));
     var toLightRed = sample(game.red, 1 + Math.round(Math.random() * level));
+
+    // saving the indexes of the leds to light
     game.temp.green = toLightGreen.indexes;
     game.temp.red = toLightRed.indexes;
 
+    // sample array contains the leds objects
     lightsOn(toLightGreen.sample, toLightRed.sample);
     beep();
 
@@ -123,8 +127,8 @@ function showWinner(){
 function playStartSong(){
   game.piezo.noTone();
   game.piezo.play({
-    tempo: 200, // Beats per minute, default 150
-    song: [ // An array of notes that comprise the tune
+    tempo: 200,
+    song: [
       [ "g5", 1 ],
       [ null, 1 ],
       [ "c4", 1 ],
@@ -147,8 +151,8 @@ function beep(){
 function playWinnerSong(){
   game.piezo.noTone();
   game.piezo.play({
-    tempo: 200, // Beats per minute, default 150
-    song: [ // An array of notes that comprise the tune
+    tempo: 200,
+    song: [
       [ "c6", 1 ],
       [ null, 1 ],
       [ "c5", 1 ],
@@ -169,6 +173,12 @@ function checkMatchingLights(){
   return _.intersection(game.temp.green, game.temp.red).length;
 }
 
+/**
+  Sample will retrieve `numElements` elements out of an `array`, randomly.
+  Will return not only the elements but also its indexes.
+
+  @returns Object {sample: [element1, element5], indexes:[1, 5]}
+**/
 function sample(array, numElements){
   var ret = {
     sample: [],
@@ -177,7 +187,11 @@ function sample(array, numElements){
     arraySize = array.length;
 
   for (var i = 0; i < numElements; i++) {
-    var pos = Math.floor(Math.random() * arraySize);
+    var pos;
+    do {
+      pos = Math.floor(Math.random() * arraySize);
+    } while(ret.indexes.indexOf(pos) !== -1);
+
     ret.sample.push(array[pos]);
     ret.indexes.push(pos);
   }
